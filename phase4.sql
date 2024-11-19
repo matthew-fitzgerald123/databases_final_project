@@ -99,8 +99,7 @@ WHERE `row_num` = 1;
 -- Creating and populating `categories`
 CREATE TABLE `categories` (
     `categoryID` INT AUTO_INCREMENT PRIMARY KEY,
-    `categoryName` VARCHAR(255) NOT NULL UNIQUE,
-    `description` TEXT
+    `categoryName` VARCHAR(255) NOT NULL UNIQUE
 ) AS
 SELECT DISTINCT
     CAST(`categoryID` AS SIGNED) AS `categoryID`,
