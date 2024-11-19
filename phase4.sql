@@ -216,6 +216,20 @@ SELECT DISTINCT
 FROM `project_data`
 WHERE `employeeID` IS NOT NULL;
 
+
+-- Adding Alterations for Phase 4
+-- Adding CHECK constraints
+ALTER TABLE `products` ADD CONSTRAINT chk_unitPrice CHECK (`unitPrice` >= 0);
+ALTER TABLE `order_details` ADD CONSTRAINT chk_quantity CHECK (`quantity` > 0);
+ALTER TABLE `order_details` ADD CONSTRAINT chk_discount CHECK (`discount` BETWEEN 0 AND 1);
+ALTER TABLE `products` ADD CONSTRAINT chk_unitsInStock CHECK (`unitsInStock` >= 0);
+ALTER TABLE `products` ADD CONSTRAINT chk_reorderLevel CHECK (`reorderLevel` >= 0);
+
+-- Adding UNIQUE constraints
+ALTER TABLE `categories` ADD UNIQUE (`categoryName`);
+ALTER TABLE `suppliers` ADD UNIQUE (`companyName`);
+ALTER TABLE `products` ADD UNIQUE (`productName`);
+
 --
 -- Dumping routines for database 'project_database'
 --
