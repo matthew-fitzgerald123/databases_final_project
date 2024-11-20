@@ -21,7 +21,7 @@ USE `project_database`;
 -- Table structure for table `project_data`
 --
 
-DROP TABLE IF EXISTS `project_data`;
+-- Dropping existing tables
 DROP TABLE IF EXISTS `order_details`;
 DROP TABLE IF EXISTS `orders`;
 DROP TABLE IF EXISTS `products`;
@@ -29,6 +29,7 @@ DROP TABLE IF EXISTS `categories`;
 DROP TABLE IF EXISTS `suppliers`;
 DROP TABLE IF EXISTS `employees`;
 DROP TABLE IF EXISTS `customers`;
+DROP TABLE IF EXISTS `project_data`;
 
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
@@ -96,14 +97,16 @@ FROM (
 ) AS deduped
 WHERE `row_num` = 1;
 
--- Creating and populating `categories`
+-- Table: Categories
 CREATE TABLE `categories` (
     `categoryID` INT AUTO_INCREMENT PRIMARY KEY,
     `categoryName` VARCHAR(255) NOT NULL UNIQUE
-) AS
+);
+
+INSERT INTO `categories` (`categoryID`, `categoryName`)
 SELECT DISTINCT
-    CAST(`categoryID` AS SIGNED) AS `categoryID`,
-    CAST(`categoryName` AS CHAR(255)) AS `categoryName`
+    `categoryID`,
+    `categoryName`
 FROM `project_data`;
 
 -- Creating and populating `order_details`
@@ -154,28 +157,38 @@ SELECT DISTINCT
     `freight`
 FROM `project_data`;
 
--- Creating and populating `products`
+-- Table: Products
 CREATE TABLE `products` (
     `productID` INT AUTO_INCREMENT PRIMARY KEY,
     `productName` VARCHAR(255) NOT NULL UNIQUE,
     `supplierID` INT NOT NULL,
     `categoryID` INT NOT NULL,
-    `quantityPerUnit` VARCHAR(100),
+    `quantityPerUnit` VARCHAR(40),
     `unitPrice` DECIMAL(6,2) NOT NULL CHECK (`unitPrice` >= 0),
+    `supplierUnitPrice` DECIMAL(6,2),
+    `unitsInStock` INT CHECK (`unitsInStock` >= 0),
+    `unitsOnOrder` INT CHECK (`unitsOnOrder` >= 0),
+    `reorderLevel` INT CHECK (`reorderLevel` >= 0),
+    `discontinued` INT CHECK (`discontinued` IN (0, 1)),
     FOREIGN KEY (`supplierID`) REFERENCES `suppliers`(`supplierID`),
     FOREIGN KEY (`categoryID`) REFERENCES `categories`(`categoryID`)
 );
 
-INSERT INTO `products` (`productID`, `productName`, `supplierID`, `categoryID`, `quantityPerUnit`, `unitPrice`)
+INSERT INTO `products` (`productID`, `productName`, `supplierID`, `categoryID`, `quantityPerUnit`, `unitPrice`, `supplierUnitPrice`, `unitsInStock`, `unitsOnOrder`, `reorderLevel`, `discontinued`)
 SELECT DISTINCT
     `productID`,
     `productName`,
     `supplierID`,
     `categoryID`,
     `quantityPerUnit`,
-    `unitPrice`
+    `unitPrice`,
+    `supplierUnitPrice`,
+    `unitsInStock`,
+    `unitsOnOrder`,
+    `reorderLevel`,
+    `discontinued`
 FROM (
-    SELECT `productID`, `productName`, `supplierID`, `categoryID`, `quantityPerUnit`, `unitPrice`,
+    SELECT `productID`, `productName`, `supplierID`, `categoryID`, `quantityPerUnit`, `unitPrice`, `supplierUnitPrice`,  `unitsInStock`,  `unitsOnOrder`, `reorderLevel`, `discontinued`,
            ROW_NUMBER() OVER (PARTITION BY `productID` ORDER BY `productID`) AS `row_num`
     FROM `project_data`
 ) AS deduped
