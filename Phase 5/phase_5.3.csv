@@ -1,0 +1,20 @@
+productID,productName,unitsInStock,reorderLevel,supplierID,categoryID
+31,"Gorgonzola Telino",0,20,14,4
+32,"Mascarpone Fabioli",9,25,14,4
+66,"Louisiana Hot Spiced Okra",4,20,2,2
+70,"Outback Lager",15,30,7,1
+37,"Gravad lax",11,25,17,8
+3,"Aniseed Syrup",13,25,1,2
+45,"Rogede sild",5,15,21,8
+48,Chocolade,15,25,22,3
+56,"Gnocchi di nonna Alice",21,30,26,5
+68,"Scottish Longbreads",6,15,8,3
+2,Chang,17,25,1,1
+11,"Queso Cabrales",22,30,5,4
+43,"Ipoh Coffee",17,25,20,1
+64,"Wimmers gute Semmelknödel",22,30,12,5
+30,"Nord-Ost Matjeshering",10,15,13,8
+49,Maxilaku,10,15,23,3
+21,"Sir Rodney's Scones",3,5,8,3
+16,Pavlova,9,10,7,3
+74,"Longlife Tofu",4,5,4,7
