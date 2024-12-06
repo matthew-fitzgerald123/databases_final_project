@@ -1,5 +1,5 @@
 CREATE USER 'AlexSmith'@'localhost';
-GRANT ALL PRIVILEGES ON *.* TO 'AlexSmith'@'localhost' WITH GRANT OPTION;
+GRANT ALL PRIVILEGES ON project_database.* TO 'AlexSmith'@'localhost' WITH GRANT OPTION;
 FLUSH PRIVILEGES;
 
 CREATE USER 'JamieLee'@'localhost';
